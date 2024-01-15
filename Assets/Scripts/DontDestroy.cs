@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class DontDestroy : MonoBehaviour
 {
@@ -11,4 +11,6 @@ public class DontDestroy : MonoBehaviour
 
         SceneManager.LoadScene("Start");
     }
+
+
 }
