@@ -7,10 +7,10 @@ public class DontDestroy : MonoBehaviour
 {
     private void Awake()
     {
+        //PlayerPrefs.DeleteAll();
+
         DontDestroyOnLoad(gameObject);
 
         SceneManager.LoadScene("Start");
     }
-
-
 }

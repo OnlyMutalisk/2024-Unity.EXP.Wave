@@ -22,6 +22,7 @@ public class Buttons : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Main")
         {
+            GameManager.SAVE();
             Application.Quit();
         }
         else
@@ -34,9 +35,12 @@ public class Buttons : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// <br>해상도를 설정하기 위한 토글 입니다.</br>
+    /// <br>게임오브젝트의 이름으로 설정됩니다. (Ex. 1920x1080)</br>
+    /// </summary>
     public void 토글(GameObject gameObject)
     {
-        // 해상도 설정 (게임오브젝트의 이름으로 설정됩니다.)
         string str = gameObject.name;
         string pattern = @"(\d+)x(\d+)";
 
