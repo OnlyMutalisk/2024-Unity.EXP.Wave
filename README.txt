@@ -28,3 +28,12 @@ push 하실 때 Library 폴더를 반드시 삭제 해 주세요.
 2. 저장 / 불러오기를 추가하였습니다. (PlayerPrefs, 현재는 스테이지 클리어 기록만 저장)
 
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+[ Feat : Add SFXmixer & Sprites folder ]
+
+배경음(메인 화면, 스테이지 배경, 마지막 스테이지 파도, 소음)은 BGMmixer로
+효과음은 SFXmixer로 따로 조절할 것 같습니다
+
+SoundManager에 음소거 버튼, 볼륨 조절 슬라이드에 대응하는 함수를 넣었습니다
+
+Resources에서 로드할 필요가 없는 이미지, 스프라이트들은 Sprites 폴더에 넣으면 됩니다

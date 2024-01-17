@@ -41,6 +41,7 @@ public class SoundManager : MonoBehaviour
     public Button toggleBGM; // 배경음 음소거 버튼
     public Button toggleSFX; // 효과음 음소거 버튼
 
+    #region 사운드 재생 및 세팅창 사운드 조절 함수들
     public void PlaySound(AudioSource source, AudioClip clip)
     {
         source.clip = clip;
@@ -59,7 +60,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetFloat("savedBGM", bgmSlider.value);
         PlayerPrefs.Save();
     }
-    public void SlideControlSFX() // 배경음 슬라이드 조절
+    public void SlideControlSFX() // 효과음 슬라이드 조절
     {
         if (sfxSlider.value == -40)
         {
@@ -87,7 +88,7 @@ public class SoundManager : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
-    public void OnOffSFX() // 배경음 온오프
+    public void OnOffSFX() // 효과음 온오프
     {
         if (!effectSound.mute)
         {
@@ -102,12 +103,18 @@ public class SoundManager : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+    #endregion
+
+    public void ReduceNoise() // 마지막 스테이지 전용
+    {
+        noiseSound.volume -= 0.1f;
+    }
 
     void Start()
     {
-        DontDestroyOnLoad(_Instance.gameObject);
-        DontDestroyOnLoad(_Instance.mainSound.gameObject);
-        DontDestroyOnLoad(_Instance.effectSound.gameObject);
+        //DontDestroyOnLoad(_Instance.gameObject);
+        //DontDestroyOnLoad(_Instance.mainSound.gameObject);
+        //DontDestroyOnLoad(_Instance.effectSound.gameObject);
 
         for (int i = 0; i < (int)soundList.MaxCount; i++)
         {
