@@ -37,3 +37,17 @@ push 하실 때 Library 폴더를 반드시 삭제 해 주세요.
 SoundManager에 음소거 버튼, 볼륨 조절 슬라이드에 대응하는 함수를 넣었습니다
 
 Resources에서 로드할 필요가 없는 이미지, 스프라이트들은 Sprites 폴더에 넣으면 됩니다
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+[ Fix: Repair Menu On/Off after Clear ]
+
+1. 메뉴 창이 켜져있는 상태로 게임 클리어 시, 메뉴 창이 닫히지 않는 버그를 수정하였습니다.
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+[ Feat: Add Menu & Settings ]
+
+1. 기획상 기존 Menu (해상도, 사운드 패널) 는 Settings 로 변경되었습니다.
+2. Scripts/Scene 폴더 명을 UI 로 변경했습니다.
+3. Scripts/Main & DontDestroy 스크립트도 Scripts/UI 폴더로 이동했습니다.
