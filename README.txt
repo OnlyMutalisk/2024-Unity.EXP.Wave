@@ -51,3 +51,10 @@ Resources에서 로드할 필요가 없는 이미지, 스프라이트들은 Spri
 1. 기획상 기존 Menu (해상도, 사운드 패널) 는 Settings 로 변경되었습니다.
 2. Scripts/Scene 폴더 명을 UI 로 변경했습니다.
 3. Scripts/Main & DontDestroy 스크립트도 Scripts/UI 폴더로 이동했습니다.
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+[ Feat: Add Sound mute buttons and control slide ] 
+
+DontDestroyScene의 CanvusDontDestroy -> Settings -> 사운드 패널에 
+BGM/SFX 음소거 버튼과 볼륨 조절 슬라이드를 넣었습니다
