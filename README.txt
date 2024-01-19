@@ -58,3 +58,10 @@ Resources에서 로드할 필요가 없는 이미지, 스프라이트들은 Spri
 
 DontDestroyScene의 CanvusDontDestroy -> Settings -> 사운드 패널에 
 BGM/SFX 음소거 버튼과 볼륨 조절 슬라이드를 넣었습니다
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+[ Fix: Repair Script Connections ]
+
+1. 연결이 끊긴 스크립트를 모두 연결하였습니다.
+2. 1-1 에 Stage2 작업 내용을 적용해보았습니다.

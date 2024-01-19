@@ -5,9 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/DontDestroy.unity
     guid: fe9a9383e0fb5ba4685c7b0a280e5cbf
@@ -31,11 +28,29 @@ EditorBuildSettings:
     guid: a32c092623749664d87be3b27f77aeb0
   - enabled: 1
     path: Assets/Scenes/Stages/1-1.unity
-    guid: 3858fd37335e3444d9f1aaafa4fd4a5f
+    guid: 4b2b4de625b86544584ce092aba2682f
   - enabled: 1
     path: Assets/Scenes/Stages/1-2.unity
-    guid: 130e09b4bd1368c48a832e3f492a821e
+    guid: 3fe07302b7d484745b143af333b91319
   - enabled: 1
     path: Assets/Scenes/Stages/1-3.unity
-    guid: e9d5d5302bac40840b342d1c5b29b729
+    guid: 8f2dfe257c0e0974dadea53f7a16efd2
+  - enabled: 1
+    path: Assets/Scenes/Stages/2-1.unity
+    guid: ff8c6d4577ffe0e499d4d17e4e05f3d3
+  - enabled: 1
+    path: Assets/Scenes/Stages/2-2.unity
+    guid: c5375bcf347c3cf46a1f93d5f8c67b3a
+  - enabled: 1
+    path: Assets/Scenes/Stages/2-3.unity
+    guid: 1c33c14e7c4c80544a988044499e6637
+  - enabled: 1
+    path: Assets/Scenes/Stages/3-1.unity
+    guid: ef7ceeff2429cc4409bcd40dda633b37
+  - enabled: 1
+    path: Assets/Scenes/Stages/3-2.unity
+    guid: d149037a93d205f42b39b7100cf94bd9
+  - enabled: 1
+    path: Assets/Scenes/Stages/3-3.unity
+    guid: 045f8ad2e2c74f7458335d863c7e63d3
   m_configObjects: {}
