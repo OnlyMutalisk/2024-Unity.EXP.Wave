@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -11,7 +12,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
@@ -40,4 +41,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Not_Character
+    uniqueID: 3146293337
+    locked: 0
+  - name: Character
+    uniqueID: 3468419747
+    locked: 0
+  - name: UI
+    uniqueID: 3752161751
+    locked: 0
+  - name: Light
+    uniqueID: 4092098561
+    locked: 0
+  - name: New Layer 5
+    uniqueID: 2280984215
     locked: 0

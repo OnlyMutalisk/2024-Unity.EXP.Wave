@@ -58,4 +58,10 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    //인게임중 업데이트 문으로 생성시킬 함수
+    public void OnUpdate()
+    {
+
+    }
 }
