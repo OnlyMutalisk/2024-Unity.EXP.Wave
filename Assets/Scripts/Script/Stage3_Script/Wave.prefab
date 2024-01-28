@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1585905115955135096}
   - component: {fileID: 1891449058501979671}
   - component: {fileID: 4532306946333524033}
-  - component: {fileID: -8840861711227058557}
   - component: {fileID: 6744882317816326865}
   - component: {fileID: -6773370452741764766}
-  m_Layer: 0
+  - component: {fileID: 8321296529175779404}
+  m_Layer: 7
   m_Name: Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,19 +192,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &-8840861711227058557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8741799750127609168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bea57dc80c707e04c8b1ad4dcf61af05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
 --- !u!50 &6744882317816326865
 Rigidbody2D:
   serializedVersion: 4
@@ -267,3 +254,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.05
+--- !u!114 &8321296529175779404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8741799750127609168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea57dc80c707e04c8b1ad4dcf61af05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0

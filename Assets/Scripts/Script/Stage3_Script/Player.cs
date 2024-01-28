@@ -32,8 +32,12 @@ public class Player : MonoBehaviour
     public GameObject wavePrefab;
     public Transform shoutpos;
     public Transform stomppos;
+    public GameObject gaugeBox;
+    public GameObject gaugeBar;
     GameObject[] shoutWave;
     GameObject[] stompWave;
+    GameObject steppingground;
+    float stompdiameter;
 
     //분신 관련 정의
     public GhostLightHandler ghost;
@@ -167,11 +171,6 @@ public class Player : MonoBehaviour
         // 발구르기 점프중 불가능
         if (Input.GetKeyDown(KeyCode.Z) && jumpable && !isStomping)
         {
-
-            /*
-            * 추가 된 부분 ↓
-            */
-
             //wave 개수는 10개 
             int waveNum = 10;
 
@@ -180,6 +179,16 @@ public class Player : MonoBehaviour
             {
                 //wave 생성 ; 위치는 shoutpos의 위치에서 생성하고, 각도는 0,0,0으로 시작
                 stompWave[index] = Instantiate(wavePrefab, stomppos.position, stomppos.rotation);
+
+                //wave의 투명도 0
+                stompWave[index].GetComponent<TrailRenderer>().emitting = false;
+                Color waveColor = stompWave[index].GetComponent<SpriteRenderer>().color;
+                waveColor.a = 0;
+
+                stompWave[index].GetComponent<CircleCollider2D>().isTrigger = true;
+
+
+                StartCoroutine(WaitingDestroy(stompWave[index], 2f));
 
                 //rigidbody 컴포넌트 불러와서 rigid로 저장
                 Rigidbody2D rigid = stompWave[index].GetComponent<Rigidbody2D>();
@@ -212,19 +221,33 @@ public class Player : MonoBehaviour
     }
     void Shout()
     {
-        // 소리치기 충전 점프중 가능, 게이지 있음.
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isShouting)
+        // 소리치기 키를 눌렀을 때 
+        if (Input.GetKey(KeyCode.LeftControl) && !isShouting)
         {
-            Gauge += 1;
+            //게이지 바 보이기
+            gaugeBox.SetActive(true);
+        }
+        // 소리치기 충전 점프중 가능, 게이지 올라감.
+        if (Input.GetKey(KeyCode.LeftControl) && !isShouting)
+        {
+            if(Gauge <= 2f)
+            {
+                Gauge += Time.deltaTime;
+                gaugeBar.transform.localScale = new Vector3(Mathf.Lerp(0, 1, Gauge / 2f), 1, 1);
+            }
+            
         }
         // 키업 하면 소리치기. 게이지 표출
         if (Input.GetKeyUp(KeyCode.LeftControl) && !isShouting)
         {
-            Gauge = 0;
+            //gauge 최소수치
+            if(Gauge < 0.5f)
+            {
+                Gauge = 0.5f;
 
-            /*
-             * 추가 된 부분 ↓
-             */
+            }
+
+            gaugeBox.SetActive(false);
 
             //wave 개수는 10개 
             int waveNum = 10;
@@ -234,6 +257,8 @@ public class Player : MonoBehaviour
             {
                 //wave 생성 ; 위치는 shoutpos의 위치에서 생성하고, 각도는 0,0,0으로 시작
                 shoutWave[index] = Instantiate(wavePrefab, shoutpos.position, shoutpos.rotation);
+
+                StartCoroutine(WaitingDestroy(shoutWave[index], Gauge));
 
                 //rigidbody 컴포넌트 불러와서 rigid로 저장
                 Rigidbody2D rigid = shoutWave[index].GetComponent<Rigidbody2D>();
@@ -245,17 +270,30 @@ public class Player : MonoBehaviour
                 rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
             }
 
-            /*
-             * 추가 된 부분 ↑
-             */
 
             Debug.Log("소리치기 발동");
+
+            //게이지 초기화
+            Gauge = 0;
+
             // 소리치기 쿨타임 중이라고 명시
             isShouting = true;
+
             // 소리치기 쿨타임 진행
             StartCoroutine(CoolingShout());
         }
     }
+
+    IEnumerator WaitingDestroy(GameObject wave, float wavetime)
+    {
+        yield return new WaitForSeconds(wavetime);
+        Rigidbody2D rigid = wave.GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
+
+        yield return new WaitForSeconds(1f);
+        Destroy(wave);
+    }
+
     IEnumerator CoolingShout()
     {
         // 소리치기 쿨타임
@@ -311,15 +349,12 @@ public class Player : MonoBehaviour
         // 땅과 충돌시
         if (collision.gameObject.tag == "Ground")
         {
-            Transform groundpos = collision.gameObject.transform;
+            steppingground = collision.gameObject;
 
 
             //발구르기 파동 생성 위치를 땅의 아래쪽으로 배치 ((땅의 위치 - 땅의 크기 / 2))
             // 픽셀단위에 따라서 크기와 포지션이 다른거 같아서 일단 임시로 수치 넣어서 사용중
-            float pixelfix = 3.125f;
-            stomppos.position = new Vector2(transform.position.x, groundpos.position.y - groundpos.localScale.y / 2f / pixelfix - 0.1f);
-            Debug.Log(groundpos.position.y - groundpos.localScale.y / 2f / pixelfix - 0.1f);
-
+            stompdiameter = collision.transform.localScale.x;
 
             // 땅과 충돌시 점프 가능
             jumpable = true;
