@@ -27,7 +27,17 @@ public class PlayerHandler : MonoBehaviour
     float Run_moveSpeed = 6;
     float Run_maxSpeed = 10;
     float Gauge = 0;
-  
+
+    //소리치기 발구르기 관련 정의
+    public GameObject wavePrefab;
+    public Transform shoutpos;
+    public Transform stomppos;
+    public GameObject gaugeBox;
+    public GameObject gaugeBar;
+    GameObject[] shoutWave;
+    GameObject[] stompWave;
+    GameObject steppingground;
+    float stompdiameter;
 
     //분신 관련 정의
     public GhostLightHandler ghost;
@@ -157,9 +167,43 @@ public class PlayerHandler : MonoBehaviour
     }
     void Stomp()
     {
+
         // 발구르기 점프중 불가능
         if (Input.GetKeyDown(KeyCode.Z) && jumpable && !isStomping)
         {
+            //wave 개수는 10개 
+            int waveNum = 10;
+
+            //wave 0번부터 9번까지 각도 조정
+            for (int index = 1; index < waveNum; index++)
+            {
+                //wave 생성 ; 위치는 shoutpos의 위치에서 생성하고, 각도는 0,0,0으로 시작
+                stompWave[index] = Instantiate(wavePrefab, stomppos.position, stomppos.rotation);
+
+                //wave의 투명도 0
+                stompWave[index].GetComponent<TrailRenderer>().emitting = false;
+                Color waveColor = stompWave[index].GetComponent<SpriteRenderer>().color;
+                waveColor.a = 0;
+
+                stompWave[index].GetComponent<CircleCollider2D>().isTrigger = true;
+
+
+                StartCoroutine(WaitingDestroy(stompWave[index], 2f));
+
+                //rigidbody 컴포넌트 불러와서 rigid로 저장
+                Rigidbody2D rigid = stompWave[index].GetComponent<Rigidbody2D>();
+
+                // 보는 방향은 180도의 index  /  총 wave의 개수 
+                Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * index / (waveNum)), Mathf.Sin(Mathf.PI * index / (waveNum)));
+
+                // 각도 반전 후 이동
+                rigid.AddForce(-dirVec.normalized * 3, ForceMode2D.Impulse);
+            }
+
+
+            /*
+             * 추가 된 부분 ↑
+             */
             Debug.Log("발구르기 발동");
             // 발구르기 쿨타임 중이라고 명시
             isStomping = true;
@@ -177,18 +221,64 @@ public class PlayerHandler : MonoBehaviour
     }
     void Shout()
     {
-        // 소리치기 충전 점프중 가능, 게이지 있음.
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isShouting)
+        // 소리치기 키를 눌렀을 때 
+        if (Input.GetKey(KeyCode.LeftControl) && !isShouting)
         {
-            Gauge += 1;
+            //게이지 바 보이기
+            gaugeBox.SetActive(true);
+        }
+        // 소리치기 충전 점프중 가능, 게이지 올라감.
+        if (Input.GetKey(KeyCode.LeftControl) && !isShouting)
+        {
+            if (Gauge <= 2f)
+            {
+                Gauge += Time.deltaTime;
+                gaugeBar.transform.localScale = new Vector3(Mathf.Lerp(0, 1, Gauge / 2f), 1, 1);
+            }
+
         }
         // 키업 하면 소리치기. 게이지 표출
-        if (Input.GetKeyUp(KeyCode.LeftControl) && !isShouting) 
+        if (Input.GetKeyUp(KeyCode.LeftControl) && !isShouting)
         {
-            Gauge = 0;
+            //gauge 최소수치
+            if (Gauge < 0.5f)
+            {
+                Gauge = 0.5f;
+
+            }
+
+            gaugeBox.SetActive(false);
+
+            //wave 개수는 10개 
+            int waveNum = 10;
+
+            //wave 0번부터 9번까지 각도 조정
+            for (int index = 1; index < waveNum; index++)
+            {
+                //wave 생성 ; 위치는 shoutpos의 위치에서 생성하고, 각도는 0,0,0으로 시작
+                shoutWave[index] = Instantiate(wavePrefab, shoutpos.position, shoutpos.rotation);
+
+                StartCoroutine(WaitingDestroy(shoutWave[index], Gauge));
+
+                //rigidbody 컴포넌트 불러와서 rigid로 저장
+                Rigidbody2D rigid = shoutWave[index].GetComponent<Rigidbody2D>();
+
+                // 보는 방향은 180도의 index  /  총 wave의 개수 
+                Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * index / (waveNum)), Mathf.Sin(Mathf.PI * index / (waveNum)));
+
+                // wave 이동
+                rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+            }
+
+
             Debug.Log("소리치기 발동");
+
+            //게이지 초기화
+            Gauge = 0;
+
             // 소리치기 쿨타임 중이라고 명시
             isShouting = true;
+
             // 소리치기 쿨타임 진행
             StartCoroutine(CoolingShout());
         }
@@ -201,6 +291,18 @@ public class PlayerHandler : MonoBehaviour
         isShouting = false;
         Debug.Log("소리치기 쿨타임 종료");
     }
+
+    IEnumerator WaitingDestroy(GameObject wave, float wavetime)
+    {
+        yield return new WaitForSeconds(wavetime);
+        Rigidbody2D rigid = wave.GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
+
+        yield return new WaitForSeconds(1f);
+        Destroy(wave);
+    }
+
+
     void MakeGhost()
     {
         // 만약 점프가 불가능한 상황 = 공중에 있는 상황이면
@@ -216,6 +318,11 @@ public class PlayerHandler : MonoBehaviour
             ghost.makeGhost = false; 
         }
     }
+    private void Awake()
+    {
+        shoutWave = new GameObject[10];
+        stompWave = new GameObject[10];
+    }
 
     private void Start()
     {
@@ -223,7 +330,7 @@ public class PlayerHandler : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         moveSpeed = First_moveSpeed;
         maxSpeed = First_maxSpeed;
-        jumpPower = 14;
+        jumpPower = 20;
     }
 
     void Update()
