@@ -15,7 +15,7 @@ public class LightHandler : MonoBehaviour
     void Update()
     {
         // 플레이어의 라이트 위치 조정
-        this.transform.position = new Vector3(thePlayer.transform.position.x, thePlayer.transform.position.y -0.5f, thePlayer.transform.position.z);
+        this.transform.position = new Vector3(thePlayer.transform.position.x, thePlayer.transform.position.y -0.2f, thePlayer.transform.position.z);
 
 
     }
