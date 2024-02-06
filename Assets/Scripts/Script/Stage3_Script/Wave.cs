@@ -16,15 +16,37 @@ public class Wave : MonoBehaviour
     public GameObject BoundLightPrefab;
     GameObject clockwiseboundlight;
     GameObject counterclockwiseboundlight;
+
+    //lifetime 변수는 Player 스크립트에서 수정되어 실행됨
+    public float lifetime = 2f;
+    float lefttime = 0f;
+    TrailRenderer trail;
+
+    private void Awake()
+    {
+        trail = GetComponent<TrailRenderer>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
+        lefttime = lifetime;
+        Debug.Log(lifetime);
+        Debug.Log(lefttime);
+        //StartCoroutine(WaitingDestroy(this.gameObject, lifetime));
+        Invoke("DestroySelf", lifetime);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(lefttime > Time.deltaTime)
+        {
+            lefttime -= Time.deltaTime;
+        }
+
+        trail.startColor = new Color(255, 255, 255,(lefttime / lifetime));
+        trail.endColor = new Color(255, 255, 255, (lefttime / lifetime));
 
     }
 
@@ -43,6 +65,17 @@ public class Wave : MonoBehaviour
             BoundLight boundlightscript = clockwiseboundlight.GetComponent<BoundLight>();
             boundlightscript.platformCollider = collision.gameObject.GetComponent<BoxCollider2D>();
 
+            //boundlight의 수명길이 조정 맥시멈수명 = 2초
+            if (lefttime > 2f)
+            {
+                boundlightscript.lifetime = 2f;
+            }
+            else
+            {
+                boundlightscript.lifetime = lefttime;
+            }
+            
+
             //반시계방향으로 도는 Boundlight 생성
             counterclockwiseboundlight = Instantiate(BoundLightPrefab, transform.position, transform.rotation);
 
@@ -50,6 +83,15 @@ public class Wave : MonoBehaviour
             BoundLight counterboundlightscript = counterclockwiseboundlight.GetComponent<BoundLight>();
             counterboundlightscript.platformCollider = collision.gameObject.GetComponent<BoxCollider2D>();
             counterboundlightscript.isclockwise = false;
+            
+            if (lefttime > 2f)
+            {
+                counterboundlightscript.lifetime = 2f;
+            }
+            else
+            {
+                counterboundlightscript.lifetime = lefttime;
+            }
 
         }
     }
@@ -67,4 +109,20 @@ public class Wave : MonoBehaviour
             gameObject.GetComponent<TrailRenderer>().emitting = true;
         }
     }
+
+    void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
+    IEnumerator WaitingDestroy(GameObject wave, float wavetime)
+    {
+        yield return new WaitForSeconds(wavetime);
+        Rigidbody2D rigid = wave.GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
+
+        Destroy(wave);
+    }
+
+
 }

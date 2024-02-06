@@ -16,14 +16,26 @@ public class BoundLight : MonoBehaviour
     private Vector2[] waypoints; //이동하는 목표 지점
     private int currentWaypointIndex = 0; // 처음 이동할 지점
 
-    public float lifeTime = 2f;
+    public float lifetime = 1f;
 
     bool timetodestroy = false;
+    float trailtime = 0f;
+    public float lefttime = 0f;
+    TrailRenderer trail;
+
+
+    private void Awake()
+    {
+        trail = GetComponent<TrailRenderer>();
+        trailtime = trail.time;
+    }
 
     void Start()
     {
+        lefttime = lifetime;
         //시작과 동시에 destroy 대기
-        StartCoroutine(WaitingDestroy(lifeTime)); 
+        StartCoroutine(WaitingDestroy(lifetime)); 
+        //Invoke("DestroySelf", lifetime);
 
         if (platformCollider != null)
         {
@@ -37,17 +49,23 @@ public class BoundLight : MonoBehaviour
                 waypoints = GetCounterClockWiseWaypoints(platformCollider);
             }
         }
+
     }
 
     void Update()
     {
+        lefttime -= Time.deltaTime;
+        //trail.startColor = new Color (0, 255, 0, (lefttime / lifetime));
+        //trail.endColor = new Color(0, 255, 0, (lefttime / lifetime));
+
+
         if (waypoints == null || waypoints.Length == 0)
             return;
 
         // 몹을 현재 지점에서 다음 지점으로 이동 
         if (timetodestroy == false)
         {
-            this.transform.position = Vector2.MoveTowards(this.transform.position, waypoints[currentWaypointIndex], 1f * Time.deltaTime); //원래 여기에 1f 대신 moveSpeed 들어가야함
+            this.transform.position = Vector2.MoveTowards(this.transform.position, waypoints[currentWaypointIndex], 1.5f * Time.deltaTime); //원래 여기에 1f 대신 moveSpeed 들어가야함
         }
         
 
@@ -65,7 +83,7 @@ public class BoundLight : MonoBehaviour
 
         timetodestroy = true; // 움직임을 멈춤
 
-        yield return new WaitForSeconds(1f); // trail renderer가 도착하기까지 대기
+        yield return new WaitForSeconds(trailtime); // trail renderer가 도착하기까지 대기
 
         Destroy(gameObject); 
     }
@@ -125,6 +143,10 @@ public class BoundLight : MonoBehaviour
                 transform.position = new Vector2(bounds.max.x, transform.position.y);
 
                 currentWaypointIndex += 1;
+            }
+            else // 위쪽면에 있을시
+            {
+
             }
         }
         else if (currentWaypointIndex == 2) // 3. 오른쪽 아래 꼭짓점일 경우

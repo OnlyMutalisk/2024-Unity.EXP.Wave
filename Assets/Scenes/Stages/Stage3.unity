@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 56311232}
   - component: {fileID: 56311234}
   - component: {fileID: 56311233}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: block-big (3)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -544,7 +544,7 @@ GameObject:
   - component: {fileID: 281412909}
   - component: {fileID: 281412908}
   - component: {fileID: 281412907}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: block-big
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1118,7 +1118,7 @@ GameObject:
   - component: {fileID: 749017100}
   - component: {fileID: 749017102}
   - component: {fileID: 749017101}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: block-big (2)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1246,7 +1246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 913118569}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1422,7 +1422,7 @@ GameObject:
   - component: {fileID: 1499642871}
   - component: {fileID: 1499642873}
   - component: {fileID: 1499642872}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: block-big (5)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1552,7 +1552,7 @@ GameObject:
   - component: {fileID: 1621605086}
   - component: {fileID: 1621605088}
   - component: {fileID: 1621605087}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: block-big (4)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1792,7 +1792,7 @@ GameObject:
   - component: {fileID: 1916640931}
   - component: {fileID: 1916640933}
   - component: {fileID: 1916640932}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: block-big (1)
   m_TagString: Ground
   m_Icon: {fileID: 0}

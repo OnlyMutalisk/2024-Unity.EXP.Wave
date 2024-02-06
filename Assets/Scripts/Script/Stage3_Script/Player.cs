@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     float First_maxSpeed = 5;
     float Run_moveSpeed = 6;
     float Run_maxSpeed = 10;
-    float Gauge = 0;
 
     //소리치기 발구르기 관련 정의
     public GameObject wavePrefab;
@@ -37,6 +36,7 @@ public class Player : MonoBehaviour
     GameObject[] shoutWave;
     GameObject[] stompWave;
     GameObject steppingground;
+    float Gauge = 1;
     float stompdiameter;
 
     //분신 관련 정의
@@ -171,8 +171,8 @@ public class Player : MonoBehaviour
         // 발구르기 점프중 불가능
         if (Input.GetKeyDown(KeyCode.Z) && jumpable && !isStomping)
         {
-            //wave 개수는 10개 
-            int waveNum = 10;
+            //wave 개수는 50개 
+            int waveNum = 50;
 
             //wave 0번부터 9번까지 각도 조정
             for (int index = 1; index < waveNum; index++)
@@ -187,8 +187,9 @@ public class Player : MonoBehaviour
 
                 stompWave[index].GetComponent<CircleCollider2D>().isTrigger = true;
 
-
-                StartCoroutine(WaitingDestroy(stompWave[index], 2f));
+                //wave 스크립트에서 wave의 수명을 2초만큼으로 수정
+                Wave stompwavescript = stompWave[index].GetComponent<Wave>();
+                stompwavescript.lifetime = 2f;
 
                 //rigidbody 컴포넌트 불러와서 rigid로 저장
                 Rigidbody2D rigid = stompWave[index].GetComponent<Rigidbody2D>();
@@ -196,7 +197,7 @@ public class Player : MonoBehaviour
                 // 보는 방향은 180도의 index  /  총 wave의 개수 
                 Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * index / (waveNum)), Mathf.Sin(Mathf.PI * index / (waveNum)));
 
-                // 각도 반전 후 이동
+                // 각도 반전 후(아래쪽) 이동
                 rigid.AddForce(-dirVec.normalized * 3, ForceMode2D.Impulse);
             }
 
@@ -230,41 +231,38 @@ public class Player : MonoBehaviour
         // 소리치기 충전 점프중 가능, 게이지 올라감.
         if (Input.GetKey(KeyCode.LeftControl) && !isShouting)
         {
-            if(Gauge <= 2f)
+            if(Gauge <= 3f)
             {
                 Gauge += Time.deltaTime;
-                gaugeBar.transform.localScale = new Vector3(Mathf.Lerp(0, 1, Gauge / 2f), 1, 1);
+                gaugeBar.transform.localScale = new Vector3(Mathf.Lerp(0, 1, (Gauge - 1f) / 2f), 1, 1);
             }
             
         }
         // 키업 하면 소리치기. 게이지 표출
         if (Input.GetKeyUp(KeyCode.LeftControl) && !isShouting)
         {
-            //gauge 최소수치
-            if(Gauge < 0.5f)
-            {
-                Gauge = 0.5f;
-
-            }
 
             gaugeBox.SetActive(false);
 
-            //wave 개수는 10개 
-            int waveNum = 10;
+            //wave 개수는 108개 
+            int waveNum = 108;
 
             //wave 0번부터 9번까지 각도 조정
-            for (int index = 1; index < waveNum; index++)
+            for (int index = 0; index < waveNum; index++)
             {
                 //wave 생성 ; 위치는 shoutpos의 위치에서 생성하고, 각도는 0,0,0으로 시작
                 shoutWave[index] = Instantiate(wavePrefab, shoutpos.position, shoutpos.rotation);
 
-                StartCoroutine(WaitingDestroy(shoutWave[index], Gauge));
+
+                //wave 스크립트에서 wave의 수명을 gauge 만큼으로 수정
+                Wave shoutwavescript = shoutWave[index].GetComponent<Wave>();
+                shoutwavescript.lifetime = Gauge;
 
                 //rigidbody 컴포넌트 불러와서 rigid로 저장
                 Rigidbody2D rigid = shoutWave[index].GetComponent<Rigidbody2D>();
 
                 // 보는 방향은 180도의 index  /  총 wave의 개수 
-                Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * index / (waveNum )), Mathf.Sin(Mathf.PI * index / (waveNum)));
+                Vector2 dirVec = new Vector2(Mathf.Cos(2* Mathf.PI * index / (waveNum)), Mathf.Sin(2 * Mathf.PI * index / (waveNum)));
 
                 // wave 이동
                 rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
@@ -274,7 +272,7 @@ public class Player : MonoBehaviour
             Debug.Log("소리치기 발동");
 
             //게이지 초기화
-            Gauge = 0;
+            Gauge = 1f;
 
             // 소리치기 쿨타임 중이라고 명시
             isShouting = true;
@@ -284,15 +282,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator WaitingDestroy(GameObject wave, float wavetime)
-    {
-        yield return new WaitForSeconds(wavetime);
-        Rigidbody2D rigid = wave.GetComponent<Rigidbody2D>();
-        rigid.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(1f);
-        Destroy(wave);
-    }
 
     IEnumerator CoolingShout()
     {
@@ -320,8 +310,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        shoutWave = new GameObject[10];
-        stompWave = new GameObject[10];
+        shoutWave = new GameObject[108];
+        stompWave = new GameObject[50];
     }
 
     private void Start()
