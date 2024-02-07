@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
             // scale 값을 이용해 캐릭터가 이동 방향을 바라보게 합니다.
             transform.localScale = new Vector3(-Scale, Scale, Scale);
             // 잔상 불빛을 만듭니다.
-            //ghost.makeGhost = true;
+            ghost.makeGhost = true;
             // 물체에 왼쪽 방향으로 물리적 힘을 가해줍니다. 즉, 왼쪽으로 이동 시킵니다.
             rig.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
             // velocity 는 물체의 속도입니다. 일정 속도에 도달하면 더 이상 빨라지지 않게합니다.
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
         {
             // 정지한 것으로 처리함
             isWalking = false;
-            //ghost.makeGhost = false;
+            ghost.makeGhost = false;
             rig.velocity = new Vector3(rig.velocity.normalized.x, rig.velocity.y);
             // 두 키가 동시에 눌리고 있는 상태라 명시
             isTwoArrow = true;
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
         {
             isWalking = true;
             transform.localScale = new Vector3(Scale, Scale, Scale);
-            //ghost.makeGhost = true;
+            ghost.makeGhost = true;
             rig.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);
             rig.velocity = new Vector2(Mathf.Min(rig.velocity.x, maxSpeed), rig.velocity.y);
         }
@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) && Input.GetKeyDown(KeyCode.LeftArrow))
         {
             isWalking = false;
-            //ghost.makeGhost = false;
+            ghost.makeGhost = false;
             rig.velocity = new Vector3(rig.velocity.normalized.x, rig.velocity.y);
             isTwoArrow = true;
             isDelayingInput = true;
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
             isWalking = false;
 
             // 이동키를 떼면 잔상을 만들지않습니다.
-            //ghost.makeGhost = false;
+            ghost.makeGhost = false;
 
             // x 속도를 줄여 이동 방향으로 아주 살짝만 움직이고 거의 바로 멈추게 합니다.
             rig.velocity = new Vector3(rig.velocity.normalized.x, rig.velocity.y);
@@ -187,9 +187,9 @@ public class Player : MonoBehaviour
 
                 stompWave[index].GetComponent<CircleCollider2D>().isTrigger = true;
 
-                //wave 스크립트에서 wave의 수명을 2초만큼으로 수정
+                //wave 스크립트에서 wave의 수명을 3초만큼으로 수정
                 Wave stompwavescript = stompWave[index].GetComponent<Wave>();
-                stompwavescript.lifetime = 2f;
+                stompwavescript.lifetime = 3f;
 
                 //rigidbody 컴포넌트 불러와서 rigid로 저장
                 Rigidbody2D rigid = stompWave[index].GetComponent<Rigidbody2D>();
@@ -320,12 +320,12 @@ public class Player : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         moveSpeed = First_moveSpeed;
         maxSpeed = First_maxSpeed;
-        jumpPower = 14;
+        jumpPower = 20;
     }
 
     void Update()
     {
-        //MakeGhost();
+        MakeGhost();
         Walk();
         Dash();
         Jump();

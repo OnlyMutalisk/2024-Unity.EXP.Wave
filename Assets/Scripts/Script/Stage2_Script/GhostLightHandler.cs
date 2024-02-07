@@ -28,7 +28,7 @@ public class GhostLightHandler : MonoBehaviour
             {
                 //따라오는 불빛생성 
                 GameObject currentGhost = Instantiate(ghost, transform.position, transform.rotation);
-                currentGhost.transform.position= new Vector3(transform.position.x,transform.position.y - 0.5f,transform.position.z);
+                currentGhost.transform.position= new Vector3(transform.position.x,transform.position.y - 0.1f,transform.position.z);
                 ghostDelaySeconds = ghostDelay;
             }
         }

@@ -126,7 +126,7 @@ public class BoundLight : MonoBehaviour
                 //현재 위치의 y를 bound에 고정
                 transform.position = new Vector2(transform.position.x, bounds.max.y);
 
-                // 다음 인덱스가 시계방향
+                // 시계방향으로 조정
                 currentWaypointIndex += 1;
             }
             else // 왼쪽 면에 있을 시
@@ -139,14 +139,14 @@ public class BoundLight : MonoBehaviour
             // 오른쪽 위 꼭짓점보다 y가 낮을 경우
             if (waypoints[currentWaypointIndex].y - transform.position.y > 0.1f)
             {
-                //현재 위치의 y를 bound에 고정
+                //현재 위치의 x를 bound에 고정
                 transform.position = new Vector2(bounds.max.x, transform.position.y);
 
                 currentWaypointIndex += 1;
             }
             else // 위쪽면에 있을시
             {
-
+                transform.position = new Vector2(transform.position.x, bounds.max.y);
             }
         }
         else if (currentWaypointIndex == 2) // 3. 오른쪽 아래 꼭짓점일 경우
@@ -158,15 +158,23 @@ public class BoundLight : MonoBehaviour
 
                 currentWaypointIndex += 1;
             }
+            else // 오른쪽면에 있을시
+            {
+                transform.position = new Vector2(bounds.max.x, transform.position.y);
+            }
         }
         else if (currentWaypointIndex == 3) // 4. 왼쪽 아래 꼭짓점일 경우
         {
             if (transform.position.y - waypoints[currentWaypointIndex].y > 0.1f)
             {
-                //현재 위치의 y를 bound에 고정
+                //현재 위치의 x를 bound에 고정
                 transform.position = new Vector2(bounds.min.x, transform.position.y);
 
                 currentWaypointIndex = 0;
+            }
+            else // 아래쪽면에 있을시
+            {
+                transform.position = new Vector2(transform.position.x, bounds.min.y);
             }
         }
 
@@ -225,6 +233,11 @@ public class BoundLight : MonoBehaviour
 
                 currentWaypointIndex += 1;
             }
+            else // 위쪽면에 있을시
+            {
+                transform.position = new Vector2(transform.position.x, bounds.max.y);
+            }
+
         }
         else if (currentWaypointIndex == 3) // 3. 오른쪽 위 꼭짓점일 경우
         {
@@ -235,6 +248,10 @@ public class BoundLight : MonoBehaviour
 
                 currentWaypointIndex = 0;
             }
+            else // 오른쪽면에 있을시
+            {
+                transform.position = new Vector2(bounds.max.x, transform.position.y);
+            }
         }
         else if (currentWaypointIndex == 2) // 4. 오른쪽 아래 꼭짓점일 경우
         {
@@ -244,6 +261,10 @@ public class BoundLight : MonoBehaviour
                 transform.position = new Vector2(bounds.max.x, transform.position.y);
 
                 currentWaypointIndex += 1;
+            }
+            else // 아래쪽면에 있을시
+            {
+                transform.position = new Vector2(transform.position.x, bounds.min.y);
             }
         }
 
