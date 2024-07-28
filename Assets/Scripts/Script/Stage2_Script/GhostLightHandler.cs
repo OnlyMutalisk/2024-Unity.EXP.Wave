@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // Player에 부착되어야 하는 코드. 프리팹을 넣어주면 그것을 잔상처럼 불러옴.
-public class GhostLightHandler : MonoBehaviour
+public class GhostLightHandler : MonoBehaviour // 2024-07-28 잔상 불빛 제거에따른 일시 중단
 {
     public float ghostDelay; // 분신 개수 조절가능.
     private float ghostDelaySeconds;

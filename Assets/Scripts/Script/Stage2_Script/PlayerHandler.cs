@@ -78,7 +78,7 @@ public class PlayerHandler : MonoBehaviour
             // scale 값을 이용해 캐릭터가 이동 방향을 바라보게 합니다.
             transform.localScale = new Vector3(-Scale, Scale, Scale);
             // 잔상 불빛을 만듭니다.
-            ghost.makeGhost = true;
+            // ghost.makeGhost = true; 2024-07-28 잔상 일시 중단
             // 물체에 왼쪽 방향으로 물리적 힘을 가해줍니다. 즉, 왼쪽으로 이동 시킵니다.
             rig.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
             // velocity 는 물체의 속도입니다. 일정 속도에 도달하면 더 이상 빨라지지 않게합니다.
@@ -89,7 +89,7 @@ public class PlayerHandler : MonoBehaviour
         {
             // 정지한 것으로 처리함
             isWalking = false;
-            ghost.makeGhost = false;
+            // ghost.makeGhost = false; 2024-07-28 잔상 일시 중단
             rig.velocity = new Vector3(rig.velocity.normalized.x, rig.velocity.y);
             // 두 키가 동시에 눌리고 있는 상태라 명시
             isTwoArrow = true;
@@ -105,7 +105,7 @@ public class PlayerHandler : MonoBehaviour
         {
             isWalking = true;
             transform.localScale = new Vector3(Scale, Scale, Scale);
-            ghost.makeGhost = true;
+            // ghost.makeGhost = true; 2024-07-28 잔상 일시 중단
             rig.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);
             rig.velocity = new Vector2(Mathf.Min(rig.velocity.x, maxSpeed), rig.velocity.y);
         }
@@ -113,7 +113,7 @@ public class PlayerHandler : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) && Input.GetKeyDown(KeyCode.LeftArrow))
         {
             isWalking = false;
-            ghost.makeGhost = false;
+            // ghost.makeGhost = false;2024-07-28 잔상 일시 중단
             rig.velocity = new Vector3(rig.velocity.normalized.x, rig.velocity.y);
             isTwoArrow = true;
             isDelayingInput = true;
@@ -127,7 +127,7 @@ public class PlayerHandler : MonoBehaviour
             isWalking = false;
 
             // 이동키를 떼면 잔상을 만들지않습니다.
-            ghost.makeGhost = false;
+            // ghost.makeGhost = false; 2024-07-28 잔상 일시 중단
 
             // x 속도를 줄여 이동 방향으로 아주 살짝만 움직이고 거의 바로 멈추게 합니다.
             rig.velocity = new Vector3(rig.velocity.normalized.x, rig.velocity.y);
@@ -309,13 +309,13 @@ public class PlayerHandler : MonoBehaviour
         if (!jumpable)
         {
             // 잔상을 만듭니다.
-            ghost.makeGhost = true;
+            // ghost.makeGhost = true;2024-07-28 잔상 일시 중단
         }
         // 점프가 가능한 상황이고 걷지않는 상황이다
         if (jumpable && !isWalking) 
         {
             // 분신을 만들지 않습니다.
-            ghost.makeGhost = false; 
+            // ghost.makeGhost = false; 2024-07-28 잔상 일시 중단 
         }
     }
     private void Awake()
@@ -326,7 +326,7 @@ public class PlayerHandler : MonoBehaviour
 
     private void Start()
     {
-        ghost = gameObject.GetComponent<GhostLightHandler>();
+        //  ghost = gameObject.GetComponent<GhostLightHandler>(); 2024-07-28 잔상 일시 중단
         rig = GetComponent<Rigidbody2D>();
         moveSpeed = First_moveSpeed;
         maxSpeed = First_maxSpeed;
@@ -335,7 +335,7 @@ public class PlayerHandler : MonoBehaviour
 
     void Update()
     {
-        MakeGhost();
+        // MakeGhost(); 2024-07-28 잔상 삭제로 인한 일시 중단
         Walk();
         Dash();
         Jump();

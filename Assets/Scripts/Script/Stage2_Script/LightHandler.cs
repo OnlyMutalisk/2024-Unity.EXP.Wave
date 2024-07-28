@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // 정확히 플레이어를 따라다니는 빛
-public class LightHandler : MonoBehaviour
+public class LightHandler : MonoBehaviour // 플레이어를 따라다니는 라이트 . 업데이트에 따라 우선 사용중지 2024-07-28
 {
     private Player thePlayer;
     // Start is called before the first frame update
