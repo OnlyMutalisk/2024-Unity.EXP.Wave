@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private Light2D globalLight;
+    private float timeClose = 0.02f;
+
     Rigidbody2D rig;
     // 시간관련 타이머 설정
     public UnityEngine.UI.Text text_Timer;
@@ -333,7 +338,6 @@ public class Player : MonoBehaviour
         Shout();
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // 땅과 충돌시
@@ -349,8 +353,32 @@ public class Player : MonoBehaviour
             // 땅과 충돌시 점프 가능
             jumpable = true;
         }
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Finish") // 끝나는 부분과 접촉시
+        {
+            StartCoroutine(isFinish());
+            Debug.Log("Finish와 접촉"); 
+
+        }
     }
 
+    IEnumerator isFinish()
+    {
+        if(Time.timeScale>0)
+        {
+            Debug.Log("isFinish함수 작동 Test");
+            Time.timeScale -= timeClose;
+            globalLight.intensity += timeClose;
+            
+            yield return new WaitForSeconds(0.05f);
+            yield return isFinish();
+        }
+        yield return null;
+
+    }
     private void OnCollisionExit2D(Collision2D collision)
     {
         // 땅과 떨어질시 점프 불가능.
